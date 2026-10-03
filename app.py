@@ -321,23 +321,12 @@ with st.sidebar:
 # -----------------------------------------------------------------------------
 # 4. TOP HEADER BAR
 # -----------------------------------------------------------------------------
-col_h1, col_h2 = st.columns([3, 2])
-with col_h1:
-    st.markdown("""
-    <div>
-        <div style="font-size: 24px; font-weight: 800; color: #FFF;">Good morning 👋</div>
-        <div style="font-size: 14px; color: #94A3B8;">Ready to improve your Python skills today?</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col_h2:
-    st.markdown(f"""
-    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px;">
-        <span class="top-stat-pill">🔥 {st.session_state['streak']} Day Streak</span>
-        <span class="top-stat-pill" style="border-color: rgba(255, 212, 59, 0.4); color: #FFD43B;">⭐ {st.session_state['xp']} XP</span>
-        <span class="top-stat-pill" style="color: #4ADE80;">🟢 Active</span>
-    </div>
-    """, unsafe_allow_html=True)
+st.markdown("""
+<div>
+    <div style="font-size: 24px; font-weight: 800; color: #FFF;">Good morning 👋</div>
+    <div style="font-size: 14px; color: #94A3B8;">Ready to improve your Python skills today?</div>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown("<div style='margin-bottom: 24px;'></div>", unsafe_allow_html=True)
 
