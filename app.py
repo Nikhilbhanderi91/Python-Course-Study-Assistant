@@ -445,48 +445,7 @@ if selected_nav == "🏠 Dashboard":
             st.session_state["current_nav"] = "🎯 Diagnostic"
             st.rerun()
 
-    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-    
-    col_p1, col_p2 = st.columns([3, 2])
-    with col_p1:
-        st.markdown("""
-        <div class="pulse-card">
-            <div style="font-size: 17px; font-weight: 700; color: #FFF; margin-bottom: 14px;">📈 Skill Mastery Overview</div>
-            <div style="margin-bottom: 10px;">
-                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
-                    <span>Python Fundamentals</span> <span style="color:#4ADE80; font-weight:600;">90% Strong</span>
-                </div>
-                <div style="width:100%; height:7px; background:rgba(255,255,255,0.06); border-radius:99px;"><div style="width:90%; height:100%; background:#22C55E; border-radius:99px;"></div></div>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
-                    <span>Control Flow & Loops</span> <span style="color:#F59E0B; font-weight:600;">76% Developing</span>
-                </div>
-                <div style="width:100%; height:7px; background:rgba(255,255,255,0.06); border-radius:99px;"><div style="width:76%; height:100%; background:#F59E0B; border-radius:99px;"></div></div>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
-                    <span>Functions & Scope</span> <span style="color:#CE422B; font-weight:600;">52% Weak</span>
-                </div>
-                <div style="width:100%; height:7px; background:rgba(255,255,255,0.06); border-radius:99px;"><div style="width:52%; height:100%; background:#CE422B; border-radius:99px;"></div></div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col_p2:
-        st.markdown("""
-        <div class="pulse-card" style="border-left: 4px solid #CE422B;">
-            <div style="font-size: 14px; font-weight: 800; color: #F0523A; margin-bottom: 8px;">⚠️ NEEDS ATTENTION</div>
-            <div style="font-size: 13px; color: #94A3B8; line-height: 1.5; margin-bottom: 14px;">
-                Your latest assessment shows you should review:<br>
-                • <b style="color:#FFF;">Functions & Scope</b> (52% accuracy)<br>
-                • <b style="color:#FFF;">Object-Oriented Programming</b> (48% accuracy)
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        if st.button("View Revision Path (Step 6) →", use_container_width=True):
-            st.session_state["current_nav"] = "🧠 Revision Path"
-            st.rerun()
+    st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # 5.2. 📚 LEARN PAGE (STEP 2)
