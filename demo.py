@@ -1,68 +1,309 @@
-def explanation(topic, difficulty):
+"""
+Demo fallback mode providing structured, valid mock responses when running offline or testing.
+"""
+
+def explanation(topic: str, difficulty: str):
     examples = {
-        "lists": "numbers = [10, 20, 30]\nprint(numbers[0])",
-        "loops": "for i in range(3):\n    print(i)",
-        "functions": "def add(a, b):\n    return a + b",
-        "dictionaries": "student = {'name': 'Asha', 'age': 20}\nprint(student['name'])",
-        "oops": "class Student:\n    def __init__(self, name):\n        self.name = name"
+        "lists": ("numbers = [10, 20, 30]\nnumbers.append(40)\nprint(numbers)", "Indexing out of range (IndexError)"),
+        "loops": ("for i in range(3):\n    print(f'Count: {i}')", "Infinite while loops without counter updates"),
+        "functions": ("def greet(name):\n    return f'Hello, {name}!'\nprint(greet('Alice'))", "Forgetting to return a value"),
+        "dictionaries": ("student = {'name': 'Alex', 'grade': 'A'}\nprint(student['name'])", "KeyError when accessing missing keys without .get()"),
+        "classes": ("class Dog:\n    def __init__(self, name):\n        self.name = name\nd = Dog('Buddy')", "Forgetting 'self' as first method parameter")
     }
-    key = topic.lower()
-    ex = examples.get(key, f"# Example for {topic}\\nprint('Learn {topic} in Python')")
+    key = topic.lower().strip()
+    ex, mist = examples.get(key, (f"# {topic} Example\nval = 10\nprint(f'{topic}: {{val}}')", f"Misunderstanding syntax rules for {topic}"))
+    
     return {
-        "status":"ok","topic":topic,"difficulty":difficulty,
-        "explanation":f"{topic} is a Python concept. At {difficulty} level, learn the core idea, syntax, and a small example.",
-        "example":ex,
-        "common_mistake":f"Using {topic} without checking the correct Python syntax or data type.",
-        "check":f"Can you explain {topic} in one sentence and write a small example?"
+        "status": "success",
+        "mode": "LEARN",
+        "topic": topic,
+        "difficulty": difficulty,
+        "title": f"Understanding {topic.capitalize()} in Python",
+        "definition": f"In Python, {topic} is a foundational concept used to build robust applications.",
+        "why_it_is_used": f"It enables developers to structure code, manipulate data, and implement logic efficiently.",
+        "syntax": f"# Syntax template for {topic}\n{topic}_construct = ...",
+        "example": ex,
+        "explanation": f"Line 1 sets up the initial definition or structure. Line 2 uses the feature. Line 3 demonstrates output.",
+        "common_mistake": mist,
+        "practice_question": f"Write a small script that utilizes {topic} to solve a simple calculation or transformation."
     }
 
-def quiz(topic, difficulty, n):
+def quiz(topic: str, difficulty: str, n: int = 5):
     bank = [
-        {"question":"Which symbol starts a comment in Python?","options":["A. //","B. #","C. <!--","D. **"],"answer":"B","explanation":"Python uses # for single-line comments."},
-        {"question":"What is the type of [1, 2, 3]?","options":["A. tuple","B. set","C. list","D. dict"],"answer":"C","explanation":"Square brackets create a list."},
-        {"question":"Which keyword defines a function?","options":["A. func","B. define","C. function","D. def"],"answer":"D","explanation":"Python functions are defined with def."},
-        {"question":"What does len('Python') return?","options":["A. 5","B. 6","C. 7","D. Error"],"answer":"B","explanation":"Python has 6 letters."},
-        {"question":"Which data type stores key-value pairs?","options":["A. list","B. tuple","C. dict","D. str"],"answer":"C","explanation":"Dictionaries store key-value pairs."},
-        {"question":"What is 3 // 2?","options":["A. 1","B. 1.5","C. 2","D. 0"],"answer":"A","explanation":"// is floor division."},
-        {"question":"Which value is Boolean?","options":["A. 'True'","B. 1","C. True","D. true"],"answer":"C","explanation":"True is Python's Boolean literal."},
-        {"question":"Which statement repeats over a sequence?","options":["A. for","B. import","C. pass","D. with"],"answer":"A","explanation":"for iterates over items in a sequence/iterable."},
-        {"question":"What does append() do to a list?","options":["A. Removes an item","B. Adds an item at the end","C. Sorts the list","D. Copies the list"],"answer":"B","explanation":"append adds one item to the end."},
-        {"question":"Which block handles an exception?","options":["A. if/else","B. for/in","C. try/except","D. with/as"],"answer":"C","explanation":"try/except is used for exception handling."}
+        {
+            "id": 1,
+            "question": "Which keyword is used to define a function in Python?",
+            "options": ["def", "func", "function", "define"],
+            "correct_answer": "def",
+            "explanation": "Python uses the 'def' keyword to declare user-defined functions."
+        },
+        {
+            "id": 2,
+            "question": "What is the output of `type([1, 2, 3])`?",
+            "options": ["<class 'list'>", "<class 'tuple'>", "<class 'set'>", "<class 'dict'>"],
+            "correct_answer": "<class 'list'>",
+            "explanation": "Square brackets denote a list object in Python."
+        },
+        {
+            "id": 3,
+            "question": "Which data structure stores unique elements with no duplicates?",
+            "options": ["set", "list", "tuple", "dict"],
+            "correct_answer": "set",
+            "explanation": "Sets only contain unique elements and automatically discard duplicates."
+        },
+        {
+            "id": 4,
+            "question": "What is the correct way to handle exceptions in Python?",
+            "options": ["try / except", "try / catch", "do / rescue", "begin / error"],
+            "correct_answer": "try / except",
+            "explanation": "Python utilizes 'try' and 'except' blocks for exception handling."
+        },
+        {
+            "id": 5,
+            "question": "What does the expression `10 // 3` evaluate to in Python?",
+            "options": ["3", "3.33", "3.0", "1"],
+            "correct_answer": "3",
+            "explanation": "'//' performs integer floor division, returning 3."
+        },
+        {
+            "id": 6,
+            "question": "Which built-in function returns the number of items in a collection?",
+            "options": ["len()", "count()", "size()", "length()"],
+            "correct_answer": "len()",
+            "explanation": "len() returns the length of sequences and collections."
+        },
+        {
+            "id": 7,
+            "question": "Which statement correctly creates an empty dictionary?",
+            "options": ["{}", "[]", "set()", "()"],
+            "correct_answer": "{}",
+            "explanation": "{} creates an empty dictionary in Python."
+        },
+        {
+            "id": 8,
+            "question": "How do you access the first element in `my_list = [10, 20, 30]`?",
+            "options": ["my_list[0]", "my_list[1]", "my_list.first()", "my_list(0)"],
+            "correct_answer": "my_list[0]",
+            "explanation": "Python indexing is 0-based."
+        },
+        {
+            "id": 9,
+            "question": "Which method adds a single element to the end of a list?",
+            "options": ["append()", "extend()", "insert()", "add()"],
+            "correct_answer": "append()",
+            "explanation": "append() appends an element to the end of an existing list."
+        },
+        {
+            "id": 10,
+            "question": "What is the purpose of the `__init__` method in Python classes?",
+            "options": ["Object constructor / initializer", "Destructor", "Import module", "Declare static method"],
+            "correct_answer": "Object constructor / initializer",
+            "explanation": "__init__ is called when a new instance of a class is created."
+        }
     ]
-    return {"status":"ok","questions":bank[:n]}
-
-def cards(topic, difficulty, n):
-    base = [
-        ("What keyword defines a function?","def"),
-        ("What collection stores key-value pairs?","Dictionary (dict)"),
-        ("What does len() return?","The number of items/characters."),
-        ("What does append() do?","Adds an item to the end of a list."),
-        ("What symbol starts a Python comment?","#"),
-        ("What is floor division?","Division using // that returns the floor of the quotient.")
-    ]
-    return {"status":"ok","cards":[{"front":f"{q} ({topic})","back":a} for q,a in base[:n]]}
-
-def diagnostic(topics, difficulty, n):
-    qs = quiz("Python basics", difficulty, n)["questions"]
-    for i,q in enumerate(qs):
-        q["topic"] = topics[i % len(topics)]
-    return {"status":"ok","questions":qs}
-
-def learning_path(results):
-    weak = [r["topic"] for r in results if not r["correct"]]
-    if not weak:
-        weak = ["Advanced practice"]
     return {
-        "status":"ok",
-        "summary":"Your incorrect diagnostic answers identify the topics that should receive extra revision time.",
-        "weak_topics":weak,
-        "learning_path":[
-            {"step":i+1,"topic":t,"goal":f"Understand {t} and write 2 small examples.","activity":"Study the explanation, solve 3 practice questions, then explain the concept aloud.","duration_minutes":20}
-            for i,t in enumerate(dict.fromkeys(weak))
-        ],
-        "revision_plan":[
-            {"day":1,"focus":weak[0],"tasks":["Review notes","Solve 5 easy questions"]},
-            {"day":2,"focus":weak[min(1,len(weak)-1)],"tasks":["Write 2 programs","Take a mini quiz"]},
-            {"day":3,"focus":"Mixed revision","tasks":["Retake diagnostic","Review mistakes"]}
+        "status": "success",
+        "mode": "QUIZ",
+        "topic": topic,
+        "difficulty": difficulty,
+        "questions": bank[:n]
+    }
+
+def flashcards(topic: str, difficulty: str, n: int = 5):
+    cards = [
+        {
+            "id": 1,
+            "front": f"What is the primary purpose of {topic}?",
+            "back": f"Enables structured problem-solving and clean logic flow in Python.",
+            "example": f"# {topic} usage\npass"
+        },
+        {
+            "id": 2,
+            "front": "What keyword or syntax is central to this concept?",
+            "back": "Refer to the standard library Python documentation for exact keyword semantics.",
+            "example": "x = 42"
+        },
+        {
+            "id": 3,
+            "front": "What is a common error or bug encountered here?",
+            "back": "Type mismatch, index out of bounds, or incorrect indentation.",
+            "example": "# Error avoidance\ntry:\n    ...\nexcept Exception:\n    pass"
+        },
+        {
+            "id": 4,
+            "front": "How do you inspect the methods available for an object?",
+            "back": "Use the dir() and help() built-in introspection functions.",
+            "example": "dir(str)"
+        },
+        {
+            "id": 5,
+            "front": "What is the time complexity consideration?",
+            "back": "Dictionaries and sets offer O(1) average lookup; lists offer O(n) search.",
+            "example": "val in {'a': 1}"
+        }
+    ]
+    return {
+        "status": "success",
+        "mode": "FLASHCARDS",
+        "topic": topic,
+        "difficulty": difficulty,
+        "flashcards": cards[:n]
+    }
+
+def diagnostic():
+    return {
+        "status": "success",
+        "mode": "DIAGNOSTIC",
+        "questions": [
+            {
+                "id": 1,
+                "topic": "Variables & Data Types",
+                "question": "What is the data type of the result of `10 / 2` in Python 3?",
+                "options": ["float", "int", "decimal", "double"],
+                "correct_answer": "float",
+                "explanation": "The standard division operator `/` always produces a float in Python 3."
+            },
+            {
+                "id": 2,
+                "topic": "Conditions & Logic",
+                "question": "What does `bool([])` evaluate to in Python?",
+                "options": ["False", "True", "None", "TypeError"],
+                "correct_answer": "False",
+                "explanation": "Empty sequences (lists, strings, tuples) evaluate to False in boolean context."
+            },
+            {
+                "id": 3,
+                "topic": "Loops",
+                "question": "Which keyword immediately exits the current enclosing loop?",
+                "options": ["break", "continue", "pass", "exit"],
+                "correct_answer": "break",
+                "explanation": "`break` terminates the nearest enclosing loop."
+            },
+            {
+                "id": 4,
+                "topic": "Functions & Scope",
+                "question": "What keyword allows modifying a variable outside the local function scope?",
+                "options": ["global", "nonlocal", "extern", "outer"],
+                "correct_answer": "global",
+                "explanation": "`global` declares that a variable inside a function refers to the module-level scope."
+            },
+            {
+                "id": 5,
+                "topic": "Lists & Tuples",
+                "question": "What is the key difference between a list and a tuple?",
+                "options": ["Lists are mutable, tuples are immutable", "Tuples can only store numbers", "Lists cannot be sliced", "Tuples cannot be indexed"],
+                "correct_answer": "Lists are mutable, tuples are immutable",
+                "explanation": "Tuples cannot be modified after creation, while lists can be mutated in-place."
+            },
+            {
+                "id": 6,
+                "topic": "Dictionaries & Sets",
+                "question": "What method safely retrieves a dictionary value without raising a KeyError?",
+                "options": [".get()", ".find()", ".lookup()", ".fetch()"],
+                "correct_answer": ".get()",
+                "explanation": "`.get(key, default)` returns None or a default if the key is missing."
+            },
+            {
+                "id": 7,
+                "topic": "Exception Handling",
+                "question": "Which block always runs regardless of whether an exception occurred?",
+                "options": ["finally", "else", "except", "always"],
+                "correct_answer": "finally",
+                "explanation": "The `finally` block is guaranteed to execute for cleanup."
+            },
+            {
+                "id": 8,
+                "topic": "Object-Oriented Programming",
+                "question": "What does `self` represent inside an instance method?",
+                "options": ["The instance of the class", "The class object itself", "The parent class", "A reserved global keyword"],
+                "correct_answer": "The instance of the class",
+                "explanation": "`self` represents the specific object instance being operated on."
+            },
+            {
+                "id": 9,
+                "topic": "List Comprehensions",
+                "question": "What is the output of `[x * 2 for x in range(3)]`?",
+                "options": ["[0, 2, 4]", "[2, 4, 6]", "[0, 1, 2]", "[2, 4]"],
+                "correct_answer": "[0, 2, 4]",
+                "explanation": "`range(3)` produces 0, 1, 2. Multiplying each by 2 yields [0, 2, 4]."
+            },
+            {
+                "id": 10,
+                "topic": "Problem Solving & Debugging",
+                "question": "What built-in function pauses execution to launch the interactive debugger?",
+                "options": ["breakpoint()", "debug()", "pause()", "stop()"],
+                "correct_answer": "breakpoint()",
+                "explanation": "`breakpoint()` drops the program into `pdb` in Python 3.7+."
+            }
+        ]
+    }
+
+def learning_path(perf: dict):
+    weak = perf.get("weak_topics", ["Functions & Scope"])
+    weak_details = perf.get("weak_details", [{"topic": "Functions & Scope", "accuracy": 40.0}])
+    
+    plan_weak = []
+    for w in weak_details:
+        t = w["topic"]
+        acc = w["accuracy"]
+        plan_weak.append({
+            "topic": t,
+            "accuracy": acc,
+            "reason": f"Demonstrated {acc}% accuracy on diagnostic questions for {t}.",
+            "learning_objectives": [
+                f"Master fundamentals and core mechanics of {t}.",
+                f"Avoid common syntax traps and solve practice drills for {t}."
+            ],
+            "revision_steps": [
+                f"Review {t} definition, basic syntax, and mental models.",
+                f"Write 3 hands-on Python scripts utilizing {t}."
+            ],
+            "practice_activity": f"Build a mini project module applying {t}.",
+            "retest": f"Target >= 80% on 5-question {t} retest."
+        })
+
+    primary_weak = weak[0] if weak else "Core Python Fundamentals"
+    secondary_weak = weak[1] if len(weak) > 1 else primary_weak
+
+    return {
+        "status": "success",
+        "weak_topics": plan_weak,
+        "personalized_plan": [
+            {
+                "day": 1,
+                "topic": f"Deep Dive: {primary_weak}",
+                "activities": [
+                    f"Study foundational concepts of {primary_weak}",
+                    "Code 3 minimal working examples",
+                    "Complete 3-question mini quiz (Target: 100%)"
+                ]
+            },
+            {
+                "day": 2,
+                "topic": f"Application & Edge Cases: {primary_weak}",
+                "activities": [
+                    "Explore pitfalls and error handling",
+                    "Refactor previous code to use best practices",
+                    "Complete 3-question mini quiz"
+                ]
+            },
+            {
+                "day": 3,
+                "topic": f"Targeted Study: {secondary_weak}",
+                "activities": [
+                    f"Review prerequisites and core rules of {secondary_weak}",
+                    "Write interactive test cases",
+                    "Complete 3-question mini quiz"
+                ]
+            },
+            {
+                "day": 4,
+                "topic": "Mixed Review & Retest",
+                "activities": [
+                    "Mixed topic coding challenges",
+                    "Full diagnostic retest benchmark",
+                    "Verify mastery target (>= 80% accuracy)"
+                ]
+            }
         ]
     }
