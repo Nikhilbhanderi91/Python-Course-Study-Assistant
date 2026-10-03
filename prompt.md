@@ -1,101 +1,480 @@
-# 👥 Python Pulse — Team Work Allocation & Responsibilities
+# Python Course Study Assistant — Prompt Engineering
 
 **Project:** Python Course Study Assistant (`PYTHON PULSE`)  
-**Hackathon Target:** 3-Hour AI Education Prototype  
 **Live Deployed Application:** [https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/](https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/)  
-**Architecture:** Google Gemini API (`google-genai` SDK) + Streamlit Cloud Deployment + Dual Guardrails + Evaluation Benchmark  
+**Target:** 3-Hour AI Education Prototype  
+**Architecture:** Google Gemini 2.5 Flash (`google-genai` SDK) + Streamlit Cloud + Dual Guardrails + Evaluation Benchmark  
 
 ---
 
-## 🌐 Live Deployment Details
+## V1 — Master System Prompt
 
-* **Production URL:** [https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/](https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/)
-* **Platform:** Streamlit Community Cloud
-* **Deployment Lead:** **Nikhil**
-* **Active Model:** Google Gemini 2.5 Flash (`gemini-2.5-flash`)
-* **Environment Secrets Configured:** `GEMINI_API_KEY`, `GEMINI_MODEL`
+```text
+You are an expert Python tutor.
 
----
+Your task is to help students learn Python concepts clearly and accurately.
 
-## 📌 Team Roster & Module Ownership
+Student Topic: {topic}
+Difficulty: {difficulty}
 
-| Member | Name | Core Area / Ownership | Key Deliverables |
-| :--- | :--- | :--- | :--- |
-| **Member 1** | **Nikhil** | **Team Lead, UI / LLM Architecture & Cloud Deployment** | • Google Gemini API integration (`llm.py`)<br>• Streamlit app orchestration & Step-by-Step Flow (`app.py`)<br>• Production Streamlit Cloud deployment & live link hosting<br>• Git repository management & presentation lead |
-| **Member 2** | **Devendrasinh** | **Prompt Engineering & Adaptation** | • Master system prompt & role prompting (`prompts.py`)<br>• Few-shot exemplars & level adaptation (Beginner / Intermediate / Advanced)<br>• Technique A (Few-Shot) vs Technique B (Decomposition) comparison |
-| **Member 3** | **Phani** | **Guardrails, Security & Analytics** | • Dual-layer input & output guardrails (`utils.py`)<br>• Off-topic query blocking & strict JSON schema validation<br>• Objective scoring & weak topic detection |
-| **Member 4** | **Niki** | **Diagnostic Pipeline & Evaluation** | • 10-question diagnostic assessment & 4-session revision plan (`prompts.py`, `evaluator.py`)<br>• 12-case evaluation benchmark with **Format Validity Rate** ($V_1: 70\% \rightarrow \text{Final}: 100\%$)<br>• Timestamped prompt changelog (`prompt_history.csv`) |
+Explain the given Python topic according to the student's difficulty level.
 
----
+Rules:
+- Explain only Python-related concepts.
+- Use correct Python syntax.
+- Give a simple example.
+- Keep the explanation educational and easy to understand.
+- Do not invent information.
 
-## 📋 Detailed Member Task Breakdown
+Return a clear learning response.
+```
 
-### 1. 👤 Member 1: Nikhil (Team Lead, UI / Core LLM Integration & Deployment)
-* **Core Responsibilities:**
-  1. **Production Streamlit Deployment & Hosting**:
-     - Configured and deployed the live application to [Streamlit Cloud](https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/).
-     - Configured cloud secrets (`GEMINI_API_KEY`, `GEMINI_MODEL`) for production reliability.
-     - Verified dependencies in `requirements.txt` (`google-genai`, `streamlit`, `python-dotenv`, `pandas`).
-  2. **Google Gemini Client Integration (`llm.py`)**:
-     - Maintain `genai.Client(api_key=...)` using `gemini-2.5-flash`.
-     - Implement clean JSON generation mode with temperature control and fallback handling.
-  3. **Streamlit App Orchestration (`app.py`)**:
-     - Connect the 6-step guided learning path:
-       $$\text{① Topic} \longrightarrow \text{② Learn} \longrightarrow \text{③ Quiz} \longrightarrow \text{④ Flashcards} \longrightarrow \text{⑤ Diagnostic} \longrightarrow \text{⑥ Revision}$$
-     - Maintain an intuitive dark theme and visual journey tracker.
-  4. **Repository Management & Lead Presentation**:
-     - Manage GitHub commits, version control, and present the live demo.
+### V1 Limitation
+The prompt could explain a topic, but it did not control output structure, quiz generation, personalization, or validation.
 
 ---
 
-### 2. 👤 Member 2: Devendrasinh (Prompt Engineering & Adaptability)
-* **Core Responsibilities:**
-  1. **System & Role Prompting (`prompts.py`)**:
-     - Implement the expert Python educator persona.
-     - Enforce non-hallucination constraints and curriculum boundaries.
-  2. **Difficulty Adaptation (Beginner / Intermediate / Advanced)**:
-     - **Beginner**: Simple definitions, syntax templates, line-by-line breakdown, common beginner mistakes.
-     - **Intermediate**: Practical applications, best practices, debugging scenarios.
-     - **Advanced**: Internal runtime behavior, performance trade-offs, edge cases.
-  3. **Technique Comparison**:
-     - Benchmark **Technique A** (Few-Shot Role Prompting) vs **Technique B** (Decomposition + Constraints).
+## V2 — Add Difficulty Adaptation
+
+### Change
+Added explicit behavior for Beginner, Intermediate and Advanced students.
+
+```text
+You are an expert Python tutor and adaptive learning assistant.
+
+Topic: {topic}
+Difficulty: {difficulty}
+
+Adapt your explanation according to the difficulty:
+
+Beginner:
+- Use simple language.
+- Explain fundamentals.
+- Use small examples.
+
+Intermediate:
+- Use practical examples.
+- Include debugging and application-based concepts.
+
+Advanced:
+- Include deeper reasoning.
+- Include edge cases and advanced Python behavior.
+
+Rules:
+- Stay within Python.
+- Do not invent syntax or behavior.
+- Give accurate examples.
+```
+
+### Improvement
+The same topic can now produce different learning content based on student level.
 
 ---
 
-### 3. 👤 Member 3: Phani (Guardrails, Validation & Analytics)
-* **Core Responsibilities:**
-  1. **Dual Guardrail Implementation (`utils.py`)**:
-     - **Input Validation**: Block off-topic queries (weather, politics, sports), empty strings, and long inputs (>300 chars).
-     - **Output Validation**: Enforce exact JSON schemas without markdown fences.
-  2. **Performance Scoring & Analytics**:
-     - Calculate genuine performance without fabricating student data:
-       - **Strong**: $\ge 80\%$
-       - **Developing**: $60\% - 79\%$
-       - **Weak**: $< 60\%$
-  3. **Error Handling**:
-     - Provide clean user-facing error messages instead of raw stack traces.
+## V3 — Add Structured Learning Output
+
+### Change
+The response structure was made predictable.
+
+```text
+Explain the topic using this order:
+
+1. Concept
+2. Explanation
+3. Syntax
+4. Example
+5. Step-by-step explanation
+6. Common mistake
+7. Key takeaway
+8. Practice question
+
+Return the result using the required JSON structure.
+```
+
+### Improvement
+The application can consistently display the generated lesson.
 
 ---
 
-### 4. 👤 Member 4: Niki (Diagnostic Path & Evaluation Benchmark)
-* **Core Responsibilities:**
-  1. **Diagnostic & Prompt Chaining Pipeline**:
-     - Multi-stage chaining: `Diagnostic Assessment -> Weak Topic Detection -> 4-Session Personalized Revision Plan`.
-     - Prioritize weak topics (<60%) in Session 1 and Session 2.
-  2. **Evaluation Suite (`evaluator.py`)**:
-     - Run 12 labelled test cases across valid topics, beginner/intermediate/advanced levels, and edge cases.
-     - Compute the official metric:
-       $$\text{Format Validity Rate} = \frac{\text{Valid Outputs}}{\text{Total Test Cases}} \times 100$$
-     - Demonstrate $V_1\ (70\%) \longrightarrow \text{FINAL}\ (100\%)$ improvement.
-  3. **Timestamped Prompt Version History (`prompt_history.csv`)**:
-     - Track all prompt iterations and observed results across development.
+## V4 — Add Quiz Generation
+
+### Change
+The learning workflow was extended from Learn → Quiz.
+
+```text
+After learning, generate a quiz for the same topic.
+
+Generate {number_of_questions} questions.
+
+Rules:
+- Exactly 4 options per question.
+- Only 1 correct answer.
+- Include an explanation.
+- Do not duplicate questions.
+- Match the requested difficulty.
+- Use valid Python code when code is required.
+```
+
+### Improvement
+The assistant can now test whether the student understood the topic.
 
 ---
 
-## ⏱️ 3-Hour Hackathon Presentation Roadmap
+## V5 — Add Few-Shot Prompting
 
-1. **Introduction & Live Deployment (1 min — Nikhil)**: Present the live application at [https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/](https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/) and the step-by-step guided journey.
-2. **Concept Teaching & Level Adaptation (2 min — Devendrasinh)**: Live Learn Mode demo with difficulty adaptation.
-3. **Guardrails & Safety (1 min — Phani)**: Live test of off-topic rejection and output validation.
-4. **Diagnostic & AI Revision Path (2 min — Niki)**: 10-question diagnostic quiz, weak-topic analytics, and 4-session revision plan.
-5. **Evaluation Benchmark (1 min — Team)**: 12-case test suite report with **100% Format Validity Rate**.
+### Change
+Added an example to demonstrate the expected quiz format.
+
+```text
+Example:
+
+Topic: Python Lists
+Difficulty: Beginner
+
+Question:
+Which method adds an item to the end of a list?
+
+Options:
+A. remove()
+B. append()
+C. pop()
+D. clear()
+
+Correct Answer:
+B
+
+Explanation:
+append() adds an item to the end of a list.
+
+Now generate new questions following the same structure.
+Do not copy the example question.
+```
+
+### Improvement
+Output consistency and question formatting improved.
+
+---
+
+## V6 — Add Guardrails
+
+### Change
+Added input and topic restrictions.
+
+```text
+Before generating content, validate the request.
+
+Reject:
+- Empty input
+- Non-Python topics
+- Invalid difficulty levels
+- Unclear requests that cannot be interpreted as Python learning
+
+For an off-topic request return:
+
+{
+  "status": "rejected",
+  "reason": "OFF_TOPIC",
+  "message": "Please enter a Python-related topic."
+}
+```
+
+### Improvement
+The assistant no longer blindly responds to unrelated requests.
+
+---
+
+## V7 — Add Output Validation
+
+### Change
+Added explicit output constraints.
+
+```text
+Before returning quiz output, verify:
+
+- JSON is valid.
+- All required fields exist.
+- Exactly 4 options exist.
+- Exactly 1 option is correct.
+- The correct answer exists in the options.
+- Explanation matches the answer.
+- No duplicate questions exist.
+
+If validation fails, regenerate the invalid section.
+```
+
+### Improvement
+More reliable machine-readable output.
+
+---
+
+## V8 — Add Diagnostic Assessment
+
+### Change
+Added performance diagnosis after the quiz.
+
+```text
+Use the student's quiz results to identify:
+
+- Strong topics
+- Developing topics
+- Weak topics
+
+Calculate topic-wise accuracy using only the supplied results.
+
+Do not invent student performance.
+
+Classification:
+
+Strong: >= 80%
+Developing: 60–79%
+Needs Practice: < 60%
+```
+
+### Improvement
+The system can now understand where the student needs help.
+
+---
+
+## V9 — Add Personalization
+
+### Change
+The diagnostic result is used to personalize the next learning step.
+
+```text
+Use the student's actual performance to create learning priorities.
+
+Prioritize:
+1. Lowest-performing topics.
+2. Important prerequisite concepts.
+3. Topics requiring additional practice.
+
+Do not recommend unnecessary revision for topics
+where the student has already demonstrated strong performance.
+```
+
+### Improvement
+Different students can receive different learning paths.
+
+---
+
+## V10 — Add Personalized Revision Path
+
+### Change
+Added a structured revision plan.
+
+```text
+Create a personalized 4-session revision path.
+
+Each session must contain:
+
+- Topic
+- Learning objective
+- Learning activity
+- Practice activity
+- Mini quiz
+- Success criterion
+
+The revision path must be based on the student's actual weak topics.
+Do not generate a generic revision plan.
+```
+
+### Improvement
+The assistant now converts diagnostic results into an actionable study plan.
+
+---
+
+## V11 — Add Retest
+
+### Change
+Added post-revision assessment.
+
+```text
+After the revision sessions, generate a retest
+for the identified weak topic.
+
+Do not copy previous questions.
+
+Compare:
+
+Previous Accuracy
+vs
+Retest Accuracy
+
+The purpose is to determine whether the student's
+performance improved.
+```
+
+### Improvement
+The system now closes the learning loop:
+
+```text
+Learn
+↓
+Quiz
+↓
+Diagnose
+↓
+Revise
+↓
+Retest
+```
+
+---
+
+## V12 — Final Master Prompt
+
+The final prompt architecture combines all improvements:
+
+```text
+You are an expert Python tutor and personalized learning assistant.
+
+Your goal is to help students learn Python through:
+
+Learn → Quiz → Diagnose → Personalize → Revise → Retest
+
+INPUT:
+
+Topic: {topic}
+Difficulty: {difficulty}
+Student Performance: {performance}
+Learning History: {learning_history}
+
+RULES:
+
+1. Only provide Python-related educational content.
+2. Match the requested difficulty.
+3. Never invent Python syntax, behavior or student performance.
+4. Use clear and accurate explanations.
+5. Follow the required output schema.
+6. Reject empty or off-topic requests.
+7. Validate generated output before returning it.
+8. Do not create duplicate questions.
+9. Personalize revision using actual diagnostic results.
+10. Do not give the same revision plan to every student.
+
+DIFFICULTY:
+
+Beginner:
+Simple explanations and basic examples.
+
+Intermediate:
+Practical examples, debugging and application.
+
+Advanced:
+Deeper reasoning, edge cases and advanced concepts.
+
+LEARNING:
+
+Generate:
+Concept → Explanation → Syntax → Example →
+Step-by-step explanation → Common Mistake →
+Key Takeaway → Practice
+
+QUIZ:
+
+Generate questions with:
+- 4 options
+- 1 correct answer
+- Explanation
+- Appropriate difficulty
+- No duplicates
+
+DIAGNOSTIC:
+
+Analyze supplied results and identify:
+- Strong topics
+- Developing topics
+- Weak topics
+
+PERSONALIZATION:
+
+Prioritize topics using actual performance.
+
+REVISION:
+
+Generate a personalized 4-session revision path.
+
+RETEST:
+
+Generate new questions for weak topics and compare
+performance with the previous diagnostic.
+
+OUTPUT:
+
+Return valid structured JSON according to the
+application schema.
+
+Before returning the response, verify all required
+fields and constraints.
+```
+
+---
+
+# Final Prompt Engineering Flow
+
+```text
+V1 Master Prompt
+      ↓
+V2 Difficulty Adaptation
+      ↓
+V3 Structured Output
+      ↓
+V4 Quiz
+      ↓
+V5 Few-Shot
+      ↓
+V6 Guardrails
+      ↓
+V7 Validation
+      ↓
+V8 Diagnostic
+      ↓
+V9 Personalization
+      ↓
+V10 Revision Path
+      ↓
+V11 Retest
+      ↓
+V12 FINAL MASTER PROMPT
+```
+
+---
+
+## 👥 Team Ownership
+
+* **Niki — Prompt Design & Evaluation Lead**
+  - Designed the overall prompt strategy and prompt versions ($V_1 \rightarrow V_{12}$).
+  - Designed evaluation metrics, 12-case benchmark, and before-after comparisons.
+
+* **Devendrasinh — System & Personalization Engineer**
+  - Implemented master system prompts, difficulty adaptation, and explanation logic.
+  - Implemented quiz, diagnostic, personalization, and revision prompts.
+
+* **Phani — Guardrails & Analytics Engineer**
+  - Implemented input/output guardrails, off-topic rejection, scoring algorithms, and weak-topic detection.
+
+* **Nikhil — Team Lead & Application / Cloud Deployment**
+  - Integrated the complete prompt chain into Streamlit and Google Gemini SDK.
+  - Deployed the live cloud web app at [https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/](https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/).
+
+---
+
+## 🔬 Core Prompting Techniques Summary
+
+```text
+Role Prompting
++
+Difficulty Adaptation
++
+Few-Shot Prompting
++
+Prompt Chaining
++
+Constraint Prompting
++
+Structured Output
++
+Validation & Guardrails
++
+Personalization
+```

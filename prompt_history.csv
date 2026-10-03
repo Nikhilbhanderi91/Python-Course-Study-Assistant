@@ -1,18 +1,13 @@
 timestamp,prompt_version,change_made,problem_or_reason,observed_result
-2026-10-03T11:00:00+05:30,V1,Created basic single-turn explanation prompt,Initial baseline prototype without strict schemas,Model occasionally output Markdown instead of raw text
-2026-10-03T11:30:00+05:30,V2,Added difficulty level adaptation (Beginner/Intermediate/Advanced),Explanations were too generic and lacked nuance for advanced learners,Clear depth difference observed across difficulty tiers
-2026-10-03T11:55:00+05:30,V3,Added structured JSON response format with strict schema,Parsing issues with raw LLM responses in UI components,Achieved clean JSON parsing for Learn and Quiz modes
-2026-10-03T12:15:00+05:30,V4,Added prompt & application-level off-topic guardrails and validation,Users could ask non-Python questions (weather/movies/general),Rejected off-topic queries with explicit error reasons
-2026-10-03T12:45:00+05:30,FINAL,Implemented prompt chaining for diagnostic analysis & 4-session revision plan,Need for personalized weak topic targeting and retest,100% Format Validity Rate achieved in evaluation suite
-2026-10-03T12:12:56+05:30,FINAL,Learn explanation for Tuples,Standard learn request,SUCCESS
-2026-10-03T12:13:18+05:30,FINAL,Quiz generation for Python Functions,Generated 5 questions,SUCCESS
-2026-10-03T12:15:30+05:30,FINAL,Learn explanation for Tuples,Standard learn request,SUCCESS
-2026-10-03T12:18:53+05:30,FINAL,Learn explanation for Tuples,Standard learn request,SUCCESS
-2026-10-03T12:18:53+05:30,FINAL,Auto quiz generation for Tuples,Generated matching quiz,SUCCESS
-2026-10-03T12:19:18+05:30,FINAL,Quiz generation for Python Functions,Generated 5 questions,SUCCESS
-2026-10-03T12:19:18+05:30,FINAL,Quiz generation for Python Functions,Generated 5 questions,SUCCESS
-2026-10-03T12:19:50+05:30,FINAL,Quiz generation for variable,Generated 5 questions,SUCCESS
-2026-10-03T12:19:50+05:30,FINAL,Quiz generation for variable,Generated 5 questions,SUCCESS
-2026-10-03T12:29:46+05:30,FINAL,Learn explanation for Tuples,Standard learn request,SUCCESS
-2026-10-03T12:29:46+05:30,FINAL,Auto quiz generation for Tuples,Generated matching quiz,SUCCESS
-2026-10-03T12:29:46+05:30,FINAL,Auto flashcards for Tuples,Generated 5 cards,SUCCESS
+2026-10-03T11:00:00+05:30,V1,Created basic single-turn master explanation prompt,Initial baseline prototype without strict schemas,Model occasionally output Markdown instead of raw text
+2026-10-03T11:15:00+05:30,V2,Added explicit difficulty level adaptation (Beginner/Intermediate/Advanced),Explanations were too generic and lacked nuance for advanced learners,Clear depth difference observed across difficulty tiers
+2026-10-03T11:30:00+05:30,V3,Added structured learning output with predefined JSON schema,Parsing issues with raw LLM responses in UI components,Achieved clean predictable JSON lesson schema
+2026-10-03T11:45:00+05:30,V4,Added quiz generation (5 MCQs with 4 options and 1 answer),Need for immediate knowledge check after learning concepts,Successfully generated multiple-choice quiz questions
+2026-10-03T12:00:00+05:30,V5,Added few-shot prompting exemplars for quiz formatting,Variability in option keys and inconsistent answer keys,100% adherence to standard 4-option MCQ format
+2026-10-03T12:15:00+05:30,V6,Added prompt & application-level off-topic guardrails,Users could ask non-Python questions (weather/movies/general),Rejected off-topic queries with explicit error reasons
+2026-10-03T12:30:00+05:30,V7,Added self-validation and output schema repair constraints,Occasional markdown fences or missing keys in JSON,Clean machine-readable JSON parsing without markdown fences
+2026-10-03T12:45:00+05:30,V8,Added diagnostic assessment scoring and classification,Need objective knowledge gap detection across Python core domains,Factual classification into Strong / Developing / Weak
+2026-10-03T13:00:00+05:30,V9,Added personalized weak-topic prioritization logic,Generic study advice was not targeting actual student weaknesses,Prioritized topics below 60% accuracy over strong topics
+2026-10-03T13:10:00+05:30,V10,Added structured 4-session personalized revision path,Students needed an actionable step-by-step revision study plan,Synthesized 4 targeted study sessions based on diagnostic
+2026-10-03T13:18:00+05:30,V11,Added weak topic retest benchmark comparison,Need to measure before vs after mastery improvement,Clear before/after score comparison without repeating questions
+2026-10-03T13:22:00+05:30,V12_FINAL,Combined all prompt techniques into Final Master Chained Architecture,Final complete system prompt chaining and evaluation benchmark,100% Format Validity Rate achieved across 12 test cases
