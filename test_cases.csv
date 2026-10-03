@@ -1,0 +1,13 @@
+case_id,label,topic,difficulty
+E01,valid,lists,Beginner
+E02,valid,functions,Beginner
+E03,valid,loops,Intermediate
+E04,valid,dictionaries,Beginner
+E05,valid,exceptions,Intermediate
+E06,valid,classes,Advanced
+E07,invalid,asdfghjkl,Beginner
+E08,off_topic,write a political speech,Intermediate
+E09,valid,list comprehensions,Advanced
+E10,valid,file handling,Intermediate
+E11,valid,lambda functions,Advanced
+E12,valid,sets,Beginner
