@@ -1,13 +1,15 @@
 timestamp,prompt_version,change_made,problem_or_reason,observed_result
-2026-10-03T11:00:00+05:30,V1,Created basic single-turn master explanation prompt,Initial baseline prototype without strict schemas,Model occasionally output Markdown instead of raw text
-2026-10-03T11:15:00+05:30,V2,Added explicit difficulty level adaptation (Beginner/Intermediate/Advanced),Explanations were too generic and lacked nuance for advanced learners,Clear depth difference observed across difficulty tiers
-2026-10-03T11:30:00+05:30,V3,Added structured learning output with predefined JSON schema,Parsing issues with raw LLM responses in UI components,Achieved clean predictable JSON lesson schema
-2026-10-03T11:45:00+05:30,V4,Added quiz generation (5 MCQs with 4 options and 1 answer),Need for immediate knowledge check after learning concepts,Successfully generated multiple-choice quiz questions
-2026-10-03T12:00:00+05:30,V5,Added few-shot prompting exemplars for quiz formatting,Variability in option keys and inconsistent answer keys,100% adherence to standard 4-option MCQ format
-2026-10-03T12:15:00+05:30,V6,Added prompt & application-level off-topic guardrails,Users could ask non-Python questions (weather/movies/general),Rejected off-topic queries with explicit error reasons
-2026-10-03T12:30:00+05:30,V7,Added self-validation and output schema repair constraints,Occasional markdown fences or missing keys in JSON,Clean machine-readable JSON parsing without markdown fences
-2026-10-03T12:45:00+05:30,V8,Added diagnostic assessment scoring and classification,Need objective knowledge gap detection across Python core domains,Factual classification into Strong / Developing / Weak
-2026-10-03T13:00:00+05:30,V9,Added personalized weak-topic prioritization logic,Generic study advice was not targeting actual student weaknesses,Prioritized topics below 60% accuracy over strong topics
-2026-10-03T13:10:00+05:30,V10,Added structured 4-session personalized revision path,Students needed an actionable step-by-step revision study plan,Synthesized 4 targeted study sessions based on diagnostic
-2026-10-03T13:18:00+05:30,V11,Added weak topic retest benchmark comparison,Need to measure before vs after mastery improvement,Clear before/after score comparison without repeating questions
-2026-10-03T13:22:00+05:30,V12_FINAL,Combined all prompt techniques into Final Master Chained Architecture,Final complete system prompt chaining and evaluation benchmark,100% Format Validity Rate achieved across 12 test cases
+2026-10-03T11:00:00+05:30,V1,Created basic Master System Prompt for Python learning,Initial baseline needed for the prototype,Generated basic Python explanations successfully
+2026-10-03T11:10:00+05:30,V2,Added Beginner Intermediate and Advanced difficulty adaptation,Initial explanations were too generic,Clear difference in explanation depth across levels
+2026-10-03T11:20:00+05:30,V3,Added structured learning flow with Concept Syntax Example and Practice,Response structure was inconsistent,Lessons became easier to display in the application
+2026-10-03T11:32:00+05:30,V4,Added structured JSON output schema,UI parsing was difficult with free-form responses,Predictable machine-readable lesson output
+2026-10-03T11:44:00+05:30,V5,Added Quiz Mode with 5 MCQs and 4 options,Students needed knowledge checking after learning,Quiz generation worked consistently
+2026-10-03T11:55:00+05:30,V6,Added few-shot examples for quiz generation,Question and answer formatting varied,More consistent MCQ structure and answer keys
+2026-10-03T12:06:00+05:30,V7,Added off-topic and invalid-input guardrails,Users could enter non-Python or empty requests,Invalid and off-topic requests were handled correctly
+2026-10-03T12:18:00+05:30,V8,Added output validation and JSON repair instructions,Some responses contained missing fields or Markdown fences,Cleaner valid JSON responses were produced
+2026-10-03T12:30:00+05:30,V9,Added Diagnostic Quiz and topic-wise performance analysis,The system needed to identify student knowledge gaps,Strong Developing and Weak topics were identified
+2026-10-03T12:42:00+05:30,V10,Added personalized weak-topic prioritization,Generic revision did not target individual weaknesses,Topics with lower performance were prioritized
+2026-10-03T12:55:00+05:30,V11,Added 4-session personalized revision path,Students needed a clear step-by-step learning plan,Revision sessions were generated from diagnostic results
+2026-10-03T13:07:00+05:30,V12,Added retest generation for weak topics,Need to measure learning improvement after revision,New retest questions were generated without copying previous questions
+2026-10-03T13:15:00+05:30,V13,Added final prompt chaining and self-check instructions,Individual prompts needed to work as one complete learning workflow,Learn Quiz Diagnose Revise and Retest flow worked end-to-end
+2026-10-03T13:20:00+05:30,V14_FINAL,Combined validated prompts and evaluation requirements into Final Master Architecture,Final integration required a stable prompt system for demonstration,Final prompt architecture passed the prepared evaluation cases

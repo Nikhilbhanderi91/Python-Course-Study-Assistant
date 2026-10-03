@@ -305,26 +305,11 @@ with st.sidebar:
         "🗂 Flashcards",
         "🎯 Diagnostic",
         "🧠 Revision Path",
-        "🧪 Evaluation",
         "🕘 Prompt History"
     ]
 
-    selected_nav = st.radio("Navigation", nav_options, index=nav_options.index(st.session_state["current_nav"]), label_visibility="collapsed")
+    selected_nav = st.radio("Navigation", nav_options, index=nav_options.index(st.session_state["current_nav"]) if st.session_state["current_nav"] in nav_options else 0, label_visibility="collapsed")
     st.session_state["current_nav"] = selected_nav
-
-    st.markdown("---")
-    st.markdown("""
-    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px;">
-        <div style="font-size: 12px; font-weight: 700; color: #FFF; margin-bottom: 4px;">Student Mastery</div>
-        <div style="display: flex; justify-content: space-between; font-size: 11px; color: #94A3B8; margin-bottom: 6px;">
-            <span>Course Progress</span>
-            <span style="color: #CE422B; font-weight: 700;">78%</span>
-        </div>
-        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden;">
-            <div style="width: 78%; height: 100%; background: #CE422B; border-radius: 99px;"></div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # 4. TOP JOURNEY TRACKER (SYNCED WITH ACTIVE STEP)
@@ -337,7 +322,6 @@ step_map = {
     "🗂 Flashcards": 4,
     "🎯 Diagnostic": 5,
     "🧠 Revision Path": 6,
-    "🧪 Evaluation": 6,
     "🕘 Prompt History": 6
 }
 current_active_step = step_map.get(selected_nav, 1)
@@ -835,72 +819,7 @@ elif selected_nav == "🧠 Revision Path":
         """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
-# 5.7. 🧪 EVALUATION PAGE
-# -----------------------------------------------------------------------------
-elif selected_nav == "🧪 Evaluation":
-    st.markdown("""
-    <div>
-        <div style="font-size: 26px; font-weight: 800; color: #FFF;">🧪 Prompt Engineering Evaluation Suite</div>
-        <div style="font-size: 14px; color: #94A3B8; margin-bottom: 18px;">Benchmark prompt reliability and format validity rate across 12 test cases.</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col_e1, col_e2 = st.columns(2)
-    with col_e1:
-        st.markdown("""
-        <div class="pulse-card">
-            <div style="font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 10px;">📊 Version Benchmark (Format Validity Rate)</div>
-            <div style="margin-bottom: 12px;">
-                <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:2px;">
-                    <span>V1 (Basic Prompts)</span> <span style="color:#F59E0B;">70.0%</span>
-                </div>
-                <div style="width:100%; height:8px; background:rgba(255,255,255,0.06); border-radius:99px;"><div style="width:70%; height:100%; background:#F59E0B; border-radius:99px;"></div></div>
-            </div>
-            <div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:2px;">
-                    <span>FINAL (Structured + Guardrails)</span> <span style="color:#4ADE80;">100.0%</span>
-                </div>
-                <div style="width:100%; height:8px; background:rgba(255,255,255,0.06); border-radius:99px;"><div style="width:100%; height:100%; background:#22C55E; border-radius:99px;"></div></div>
-            </div>
-            <div style="font-size: 12px; color: #4ADE80; font-weight: 700; margin-top: 10px;">+30.0% Percentage Point Improvement! 🚀</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col_e2:
-        st.markdown("""
-        <div class="pulse-card">
-            <div style="font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 8px;">🔬 Prompt Techniques Used</div>
-            <div style="font-size: 13px; color: #94A3B8; line-height: 1.5;">
-                • <b>Role Prompting</b>: Persona & constraints<br>
-                • <b>Few-Shot Prompting</b>: Exemplars for structure<br>
-                • <b>Prompt Chaining</b>: Multi-stage diagnostic roadmap<br>
-                • <b>Structured JSON</b>: Zero markdown fences
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    if st.button("Run Live Benchmark Across 12 Test Cases →", type="primary", use_container_width=True):
-        with st.spinner("Running evaluation suite..."):
-            def eval_pipeline(topic, mode, diff):
-                if mode == "LEARN":
-                    prompt = LEARN_PROMPT.format(topic=topic, difficulty=diff)
-                    return call_gemini_json(prompt, lambda: demo.explanation(topic, diff))
-                elif mode == "QUIZ":
-                    prompt = QUIZ_PROMPT.format(topic=topic, difficulty=diff, seed="eval")
-                    return call_gemini_json(prompt, lambda: demo.quiz(topic, diff, 5))
-                elif mode == "FLASHCARDS":
-                    prompt = FLASHCARD_PROMPT.format(topic=topic, difficulty=difficulty, seed="eval")
-                    return call_gemini_json(prompt, lambda: demo.flashcards(topic, diff, 5))
-                elif mode == "DIAGNOSTIC":
-                    return call_gemini_json(DIAGNOSTIC_PROMPT, lambda: demo.diagnostic())
-                return {"status": "error"}
-
-            results_df, metric_val = evaluate(eval_pipeline)
-            st.dataframe(pd.DataFrame(results_df), use_container_width=True)
-            st.metric("Live Format Validity Rate", f"{metric_val:.1f}%")
-
-# -----------------------------------------------------------------------------
-# 5.9. 🕘 PROMPT HISTORY PAGE
+# 5.7. 🕘 PROMPT HISTORY PAGE
 # -----------------------------------------------------------------------------
 elif selected_nav == "🕘 Prompt History":
     st.markdown("""
