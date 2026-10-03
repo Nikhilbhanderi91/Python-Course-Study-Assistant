@@ -57,10 +57,16 @@ CUSTOM_CSS = """
     --warning: #F59E0B;
 }
 
-html, body, [class*="st-"] {
+html, body {
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
-    background-color: var(--bg-main);
-    color: var(--text-primary);
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Remove unwanted dark bounding boxes around normal text elements */
+p, span, label, h1, h2, h3, h4, h5, h6, .stMarkdown, .stMarkdownContainer {
+    background-color: transparent !important;
+    color: inherit;
 }
 
 .stApp {
