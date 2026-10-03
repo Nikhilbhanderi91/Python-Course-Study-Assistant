@@ -6,11 +6,28 @@ from typing import Dict, Any, List, Tuple
 ALLOWED_MODES = ["LEARN", "QUIZ", "FLASHCARDS", "DIAGNOSTIC"]
 ALLOWED_DIFFICULTIES = ["Beginner", "Intermediate", "Advanced"]
 
-# Off-topic keywords/phrases to filter out
+# Expanded Off-topic and Non-Python keywords/phrases to filter out
 OFF_TOPIC_KEYWORDS = [
-    "weather", "politics", "election", "movie", "cinema", "song",
-    "cricket", "football", "sports", "recipe", "cooking", "news",
-    "celebrity", "crypto price", "dating", "personal advice", "horoscope"
+    "weather", "politics", "election", "movie", "cinema", "song", "music",
+    "cricket", "football", "sports", "recipe", "cooking", "food", "news",
+    "celebrity", "crypto", "bitcoin", "dating", "personal advice", "horoscope",
+    "travel", "flight", "hotel", "fashion", "makeup", "gym", "workout",
+    "medical", "doctor", "health", "symptoms", "history of", "capital of",
+    "who is", "poem", "story", "joke", "essay", "translate", "french", "spanish"
+]
+
+# Python programming allowed signals/keywords
+PYTHON_SIGNALS = [
+    "python", "variable", "loop", "for", "while", "function", "def", "class",
+    "object", "list", "dict", "dictionary", "tuple", "set", "module", "package",
+    "import", "lambda", "decorator", "generator", "comprehension", "exception",
+    "try", "except", "oop", "recursion", "file", "async", "await", "threading",
+    "multiprocessing", "numpy", "pandas", "matplotlib", "django", "flask",
+    "fastapi", "scikit", "pytest", "unittest", "sql", "database", "regex",
+    "algorithm", "data structure", "string", "int", "float", "boolean", "type",
+    "syntax", "argument", "parameter", "return", "scope", "closure", "magic method",
+    "dunder", "init", "inheritance", "polymorphism", "encapsulation", "iterator",
+    "yield", "pip", "virtualenv", "pep8", "dataclass", "typing", "json", "csv"
 ]
 
 def now() -> str:
@@ -43,7 +60,7 @@ def validate_input(topic: str, mode: str, difficulty: str = "Beginner") -> Tuple
         return False, {
             "status": "rejected",
             "reason": "EMPTY_INPUT",
-            "message": "Please enter a Python topic."
+            "message": "⚠️ Please enter a Python topic."
         }
 
     # 2. Input length guardrail
@@ -51,17 +68,18 @@ def validate_input(topic: str, mode: str, difficulty: str = "Beginner") -> Tuple
         return False, {
             "status": "rejected",
             "reason": "INPUT_TOO_LONG",
-            "message": "Input is too long. Please provide a concise Python topic."
+            "message": "⚠️ Input is too long (>300 characters). Please provide a concise Python topic."
         }
 
-    # 3. Off-topic guardrails
     topic_lower = topic.strip().lower()
+
+    # 3. Off-topic keyword check
     for kw in OFF_TOPIC_KEYWORDS:
         if kw in topic_lower:
             return False, {
                 "status": "rejected",
                 "reason": "OFF_TOPIC",
-                "message": "I can only help with Python programming and Python learning. Please enter a Python-related topic."
+                "message": f"🚫 **Off-Topic Detected:** '{topic.strip()}' is not related to Python. This assistant only supports Python programming and computer science learning."
             }
 
     # 4. Mode validation
@@ -69,7 +87,7 @@ def validate_input(topic: str, mode: str, difficulty: str = "Beginner") -> Tuple
         return False, {
             "status": "rejected",
             "reason": "INVALID_MODE",
-            "message": "Please select Learn, Quiz, Flashcards, or Diagnostic."
+            "message": "⚠️ Invalid mode. Please select Learn, Quiz, Flashcards, or Diagnostic."
         }
 
     # 5. Difficulty validation (for modes requiring it)

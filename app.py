@@ -453,7 +453,7 @@ elif selected_nav == "📚 Learn":
     if gen_btn:
         is_valid, err = validate_input(topic_input, "LEARN", difficulty)
         if not is_valid:
-            st.error(f"🛑 {err.get('message')}")
+            st.error(err.get('message'))
         else:
             clean_topic = topic_input.strip()
             st.session_state["current_topic"] = clean_topic
