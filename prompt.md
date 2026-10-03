@@ -2,7 +2,18 @@
 
 **Project:** Python Course Study Assistant (`PYTHON PULSE`)  
 **Hackathon Target:** 3-Hour AI Education Prototype  
-**Architecture:** Google Gemini API (`google-genai` SDK) + Streamlit UI + Dual Guardrails + Evaluation Benchmark  
+**Live Deployed Application:** [https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/](https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/)  
+**Architecture:** Google Gemini API (`google-genai` SDK) + Streamlit Cloud Deployment + Dual Guardrails + Evaluation Benchmark  
+
+---
+
+## 🌐 Live Deployment Details
+
+* **Production URL:** [https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/](https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/)
+* **Platform:** Streamlit Community Cloud
+* **Deployment Lead:** **Nikhil**
+* **Active Model:** Google Gemini 2.5 Flash (`gemini-2.5-flash`)
+* **Environment Secrets Configured:** `GEMINI_API_KEY`, `GEMINI_MODEL`
 
 ---
 
@@ -10,7 +21,7 @@
 
 | Member | Name | Core Area / Ownership | Key Deliverables |
 | :--- | :--- | :--- | :--- |
-| **Member 1** | **Nikhil** | **Team Lead & UI / LLM Architecture** | • Google Gemini API integration (`llm.py`)<br>• Streamlit app orchestration & Step-by-Step Flow (`app.py`)<br>• Git Repository management & lead presentation |
+| **Member 1** | **Nikhil** | **Team Lead, UI / LLM Architecture & Cloud Deployment** | • Google Gemini API integration (`llm.py`)<br>• Streamlit app orchestration & Step-by-Step Flow (`app.py`)<br>• Production Streamlit Cloud deployment & live link hosting<br>• Git repository management & presentation lead |
 | **Member 2** | **Devendrasinh** | **Prompt Engineering & Adaptation** | • Master system prompt & role prompting (`prompts.py`)<br>• Few-shot exemplars & level adaptation (Beginner / Intermediate / Advanced)<br>• Technique A (Few-Shot) vs Technique B (Decomposition) comparison |
 | **Member 3** | **Phani** | **Guardrails, Security & Analytics** | • Dual-layer input & output guardrails (`utils.py`)<br>• Off-topic query blocking & strict JSON schema validation<br>• Objective scoring & weak topic detection |
 | **Member 4** | **Niki** | **Diagnostic Pipeline & Evaluation** | • 10-question diagnostic assessment & 4-session revision plan (`prompts.py`, `evaluator.py`)<br>• 12-case evaluation benchmark with **Format Validity Rate** ($V_1: 70\% \rightarrow \text{Final}: 100\%$)<br>• Timestamped prompt changelog (`prompt_history.csv`) |
@@ -19,16 +30,20 @@
 
 ## 📋 Detailed Member Task Breakdown
 
-### 1. 👤 Member 1: Nikhil (Team Lead & UI / Core LLM Integration)
+### 1. 👤 Member 1: Nikhil (Team Lead, UI / Core LLM Integration & Deployment)
 * **Core Responsibilities:**
-  1. **Google Gemini Client Integration (`llm.py`)**:
+  1. **Production Streamlit Deployment & Hosting**:
+     - Configured and deployed the live application to [Streamlit Cloud](https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/).
+     - Configured cloud secrets (`GEMINI_API_KEY`, `GEMINI_MODEL`) for production reliability.
+     - Verified dependencies in `requirements.txt` (`google-genai`, `streamlit`, `python-dotenv`, `pandas`).
+  2. **Google Gemini Client Integration (`llm.py`)**:
      - Maintain `genai.Client(api_key=...)` using `gemini-2.5-flash`.
      - Implement clean JSON generation mode with temperature control and fallback handling.
-  2. **Streamlit App Orchestration (`app.py`)**:
+  3. **Streamlit App Orchestration (`app.py`)**:
      - Connect the 6-step guided learning path:
        $$\text{① Topic} \longrightarrow \text{② Learn} \longrightarrow \text{③ Quiz} \longrightarrow \text{④ Flashcards} \longrightarrow \text{⑤ Diagnostic} \longrightarrow \text{⑥ Revision}$$
      - Maintain an intuitive dark theme and visual journey tracker.
-  3. **Repository Management & Lead Presentation**:
+  4. **Repository Management & Lead Presentation**:
      - Manage GitHub commits, version control, and present the live demo.
 
 ---
@@ -79,7 +94,7 @@
 
 ## ⏱️ 3-Hour Hackathon Presentation Roadmap
 
-1. **Introduction (1 min — Nikhil)**: The problem, solution, and the step-by-step guided journey.
+1. **Introduction & Live Deployment (1 min — Nikhil)**: Present the live application at [https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/](https://python-course-study-assistant-atguuqjkevipwsewkgywwj.streamlit.app/) and the step-by-step guided journey.
 2. **Concept Teaching & Level Adaptation (2 min — Devendrasinh)**: Live Learn Mode demo with difficulty adaptation.
 3. **Guardrails & Safety (1 min — Phani)**: Live test of off-topic rejection and output validation.
 4. **Diagnostic & AI Revision Path (2 min — Niki)**: 10-question diagnostic quiz, weak-topic analytics, and 4-session revision plan.
