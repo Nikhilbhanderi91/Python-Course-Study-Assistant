@@ -305,7 +305,6 @@ with st.sidebar:
         "🗂 Flashcards",
         "🎯 Diagnostic",
         "🧠 Revision Path",
-        "📊 Progress",
         "🧪 Evaluation",
         "🕘 Prompt History"
     ]
@@ -338,7 +337,6 @@ step_map = {
     "🗂 Flashcards": 4,
     "🎯 Diagnostic": 5,
     "🧠 Revision Path": 6,
-    "📊 Progress": 6,
     "🧪 Evaluation": 6,
     "🕘 Prompt History": 6
 }
@@ -837,45 +835,7 @@ elif selected_nav == "🧠 Revision Path":
         """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
-# 5.7. 📊 PROGRESS PAGE
-# -----------------------------------------------------------------------------
-elif selected_nav == "📊 Progress":
-    st.markdown("""
-    <div>
-        <div style="font-size: 26px; font-weight: 800; color: #FFF;">📊 Student Learning Analytics</div>
-        <div style="font-size: 14px; color: #94A3B8; margin-bottom: 18px;">Track your study time, accuracy, and topic improvement.</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Learning Time", "12h 40m", "+2.5h this week")
-    c2.metric("Questions Solved", "184", "+35 today")
-    c3.metric("Average Accuracy", "82%", "+8% gain")
-    c4.metric("Topics Mastered", "24", "4 in progress")
-
-    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-    st.markdown("""
-    <div class="pulse-card">
-        <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 12px;">📊 Topic Mastery Growth (Before vs After Revision)</div>
-        <div style="margin-bottom: 12px;">
-            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:2px;">
-                <span>Functions & Scope (Before: 40% → After: 85%)</span>
-                <span style="color:#4ADE80;">+45% 🚀</span>
-            </div>
-            <div style="width:100%; height:7px; background:rgba(255,255,255,0.06); border-radius:99px;"><div style="width:85%; height:100%; background:#22C55E; border-radius:99px;"></div></div>
-        </div>
-        <div style="margin-bottom: 12px;">
-            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:2px;">
-                <span>Loops & Iterators (Before: 50% → After: 80%)</span>
-                <span style="color:#4ADE80;">+30% 🚀</span>
-            </div>
-            <div style="width:100%; height:7px; background:rgba(255,255,255,0.06); border-radius:99px;"><div style="width:80%; height:100%; background:#22C55E; border-radius:99px;"></div></div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-# -----------------------------------------------------------------------------
-# 5.8. 🧪 EVALUATION PAGE
+# 5.7. 🧪 EVALUATION PAGE
 # -----------------------------------------------------------------------------
 elif selected_nav == "🧪 Evaluation":
     st.markdown("""
